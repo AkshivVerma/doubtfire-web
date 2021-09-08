@@ -1,26 +1,24 @@
-# FROM node:14
-
-# ENV DEBIAN_FRONTEND noninteractive
-
-# WORKDIR /doubtfire-web
-
-# EXPOSE 4200
-
-# ENV NODE_ENV docker
-
-# # Install packages within the container
-# COPY package.json package-lock.json /doubtfire-web/
-# RUN npm install
-
-# CMD npm start
-
-
-
-FROM node:14-alpine As build
+FROM node:14
 
 WORKDIR /doubtfire-web
-COPY ./ /doubtfire-web/
-RUN npm install @angular/cli && npm install
+
+EXPOSE 4200
+
+ENV NODE_ENV docker
+
+# Install packages within the container
+COPY package.json package-lock.json /doubtfire-web/
+RUN npm install @angular/cli
+RUN npm install
+
+CMD npm start
+
+
+# FROM node:14-alpine As build
+
+# WORKDIR /doubtfire-web
+# COPY ./ /doubtfire-web/
+# RUN npm install @angular/cli && npm install
 
 # ENV DEBIAN_FRONTEND noninteractive
 # Install packages within the container
@@ -31,7 +29,7 @@ RUN npm install @angular/cli && npm install
 # COPY --from=build /doubtfire-web ./doubtfire-web
 # RUN npm install
 
-EXPOSE 4200
+# EXPOSE 4200
 # ENV NODE_ENV docker
 
-CMD npm start
+# CMD npm start
